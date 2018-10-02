@@ -14,3 +14,4 @@ PREREQUISITES:
 3. https://console.developers.google.com/apis/credentials
 3.1 create credentials -> service account key -> new sevice account -> select role Project->Owner, key type = json, CREATE
 3.2 save file as `credentials.json`, move to repo folder
+4. for Python implementation, install python packages: `google-api-python-client google-auth google-auth-httplib2`
