@@ -10,8 +10,8 @@ PREREQUISITES:
 
 1. https://console.developers.google.com/cloud-resource-manager # create a project
 2. https://console.developers.google.com/apis/dashboard # find and enable Calendar API
-2.1. alternatively direct link to API page - https://console.developers.google.com/apis/library/calendar-json.googleapis.com # press ENABLE
+    1. alternatively direct link to API page - https://console.developers.google.com/apis/library/calendar-json.googleapis.com # press ENABLE
 3. https://console.developers.google.com/apis/credentials
-3.1 create credentials -> service account key -> new sevice account -> select role Project->Owner, key type = json, CREATE
-3.2 save file as `credentials.json`, move to repo folder
+    1. create credentials -> service account key -> new sevice account -> select role Project->Owner, key type = json, CREATE
+    2. save file as `credentials.json`, move to repo folder
 4. for Python implementation, install python packages: `google-api-python-client google-auth google-auth-httplib2`
