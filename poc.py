@@ -17,6 +17,7 @@ class AppointmentSystem(object):
         self.tz_str = '+00:00'
         self.location = '1 Nowhere street, 00000'
         self.admin = 'admin@admin.com'
+        self.date_format = '%Y-%m-%d %H:%M'
         self.event_description = 'Looking forward to meeting you! Need to change or cancel? Call/text me at +12345678901'
         if os.path.exists(config_file):
             with open(config_file, 'r') as f:
@@ -27,8 +28,8 @@ class AppointmentSystem(object):
                                                                             scopes=SCOPES)
         self.api = googleapiclient.discovery.build('calendar','v3', credentials=credentials)
         cals = self.api.calendarList().list().execute()
-        self.slots_cal = None
-        self.appointments_cal = None
+        slots_cal = None
+        appointments_cal = None
         for cal in cals['items']:
             if cal.get('description','').startswith(slots_tag):
                 slots_cal = cal['id']
@@ -66,12 +67,14 @@ class AppointmentSystem(object):
                         free_slots.pop(i)
                         continue
                 i += 1    
-        return [dict(id=slot['id'], start=slot['start'], end=slot['end']) for slot in free_slots]
+        return [dict(id=slot['id'],
+                     start=self.key_to_time(slot, 'start').strftime(self.date_format),
+                     end=self.key_to_time(slot, 'end').strftime(self.date_format)) for slot in free_slots]
     
     def create_cal(self, tag, name):
-        body = {'summary': '%s for %s' % (name, self.schedule_name), 'timeZone': self.timezone,
+        body = {'summary': '%s - %s' % (self.schedule_name, name), 'timeZone': self.timezone,
                 'description': '%s %s' %(tag, self.schedule_name) }
-        cal = api.calendars().insert(body=body).execute()
+        cal = self.api.calendars().insert(body=body).execute()
         body2 = {'scope': {'type': 'user', 'value': self.admin}, 'role': 'owner'}
         self.api.acl().insert(calendarId=cal['id'], body=body2).execute()
         return cal['id']
@@ -93,14 +96,19 @@ class AppointmentSystem(object):
                 chosen_slot = slot
         if not chosen_slot:
             return False
-        name = 'at'.join([data['name'], data['phone']])
+        #with open('debug.log', 'a') as f:
+        #    f.write('\n---data:\n')
+        #    f.write(yaml.dump(data))
+        name = ' at '.join([data['name'], data['phone']])
         summary = '%s: %s' % (self.schedule_name, name)
         event = {'summary': summary,
                  'location': self.location,
                  'description': self.event_description,
                  'start': chosen_slot['start'],
-                 'end': chosen_slot['end'],
-                 'attendees': [data]}
+                 'end': chosen_slot['end']}
+        if data.get('email'):
+            data['email'] = data['email'].strip() # cleaning occasional spaces to prevent error
+            event['attendees'] = [data]
         self.api.events().insert(calendarId=self.appointments_cal, body=event, sendNotifications=True).execute()
         return True
         
