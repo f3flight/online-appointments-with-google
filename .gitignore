@@ -1,1 +1,4 @@
 credentials.json
+config.yaml
+__pycache__
+*.pyc
