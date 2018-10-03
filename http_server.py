@@ -33,7 +33,7 @@ class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
                 message += '<input type="radio" name="slot" value="%s" />%s<br>' % (slot['id'], slot['start'])
             message += '<label for="name">Name:</label><input type="text" placeholder="John Doe" name="name" required/><br />'
             message += '<label for="phone">Phone:</label><input type="text" placeholder="+14081234567" name="phone" required/><br />'
-            message += '<label for="email">Email:</label><input type="text" placeholder="abc@gmail.com" name="email"/><br />'
+            message += '<label for="email">Email:</label><input type="email" placeholder="abc@gmail.com" name="email"/><br />'
             message += '<input type="submit" value="book" />'
         # message = "Hello world!"
         # Write content as utf-8 data
