@@ -30,7 +30,7 @@ class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
             message = 'Sorry, no slots are available for booking at this time! Try again later!'
         else:
             for slot in self.system.free_slots:
-                message += '<input type="radio" name="slot" value="%s" />%s<br>' % (slot['id'], slot['start'])
+                message += '<input type="radio" name="slot" value="%s" />%s<br>' % (slot['id'], self.system.key_to_time(slot, 'start').strftime(self.system.date_format))
             message += '<label for="name">Name:</label><input type="text" placeholder="John Doe" name="name" required/><br />'
             message += '<label for="phone">Phone:</label><input type="text" placeholder="+14081234567" name="phone" required/><br />'
             message += '<label for="email">Email:</label><input type="email" placeholder="abc@gmail.com" name="email"/><br />'

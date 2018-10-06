@@ -67,9 +67,7 @@ class AppointmentSystem(object):
                         free_slots.pop(i)
                         continue
                 i += 1    
-        return [dict(id=slot['id'],
-                     start=self.key_to_time(slot, 'start').strftime(self.date_format),
-                     end=self.key_to_time(slot, 'end').strftime(self.date_format)) for slot in free_slots]
+        return [dict(id=slot['id'], start=slot['start'], end=slot['end']) for slot in free_slots]
     
     def create_cal(self, tag, name):
         body = {'summary': '%s - %s' % (self.schedule_name, name), 'timeZone': self.timezone,
@@ -96,9 +94,6 @@ class AppointmentSystem(object):
                 chosen_slot = slot
         if not chosen_slot:
             return False
-        #with open('debug.log', 'a') as f:
-        #    f.write('\n---data:\n')
-        #    f.write(yaml.dump(data))
         name = ' at '.join([data['name'], data['phone']])
         summary = '%s: %s' % (self.schedule_name, name)
         event = {'summary': summary,
