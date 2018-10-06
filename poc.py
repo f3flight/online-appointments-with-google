@@ -101,9 +101,14 @@ class AppointmentSystem(object):
                  'description': self.event_description,
                  'start': chosen_slot['start'],
                  'end': chosen_slot['end']}
+        if getattr(self, 'fixed_attendee'):
+            event['attendees'] = [{'email': self.fixed_attendee}]
         if data.get('email'):
-            data['email'] = data['email'].strip() # cleaning occasional spaces to prevent error
-            event['attendees'] = [data]
+            data['email'] = data['email'].replace(' ', '') # cleaning occasional spaces to prevent error
+            if event.get('attendees'):
+                event['attendees'].append(data)
+            else:
+                event['attendees'] = [data]
         self.api.events().insert(calendarId=self.appointments_cal, body=event, sendNotifications=True).execute()
         return True
         
