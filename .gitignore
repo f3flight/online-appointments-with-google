@@ -1,5 +1,5 @@
 credentials.json
 config.yaml
-http_server.yaml
+http_config.yaml
 __pycache__
 *.pyc
