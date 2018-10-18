@@ -45,10 +45,12 @@ def get():
     g.cal.refresh()
 
     # Send message back to client
+    message = ('<head><title>%s</title></head><body><h3>%s - appointment scheduler</h3>' %
+               (cfg['schedule_name'], cfg['schedule_name']));
     if not g.cal.free_slots:
-        message = 'Sorry, no slots are available for booking at this time! Try again later!'
+        message += 'Sorry, no slots are available for booking at this time! Try again later!</body>'
     else:
-        message = '<link href="/static/rome.css" rel="stylesheet" type="text/css" />'
+        message += '<link href="/static/rome.css" rel="stylesheet" type="text/css" />'
         message += '<script src="/static/rome.js"></script>'
         message += '<script src="/static/draft_code.js"></script>'
         message += '<script>' + 'const dates = ' + json.dumps(free_slots_stripped()) + '</script>'
