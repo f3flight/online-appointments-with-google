@@ -4,6 +4,7 @@ from flask import Flask
 app = Flask(__name__)
 
 import html
+import json
 import ssl
 import yaml
 import os
@@ -26,22 +27,36 @@ def main():
     else:
         return post(request)
 
+@app.route('/free')
+def free_json():
+    if 'cal' not in g:
+        g.cal = gcal.AppointmentManager('credentials.json', cfg)
+    return json.dumps(free_slots_stripped())
+
+def free_slots_stripped():
+    result = {}
+    for slot in g.cal.free_slots:
+        result[slot['start']['dateTime']] = { 'id': slot['id'],
+                                              'end': slot['end']['dateTime']}
+    return result
 
 def get():
     date_format = '%B %d, %a %-I:%M%p'
     g.cal.refresh()
 
     # Send message back to client
-    message = 'Please pick available slot:<br /><form action="/" method="post">'
     if not g.cal.free_slots:
         message = 'Sorry, no slots are available for booking at this time! Try again later!'
     else:
-        for slot in g.cal.free_slots:
-            message += '<input type="radio" name="slot" value="%s" />%s<br>' % (slot['id'], gcal.key_to_time(slot, 'start').strftime(date_format))
-        message += '<label for="name">Name:</label><input type="text" placeholder="John Doe" name="name" required/><br />'
-        message += '<label for="phone">Phone:</label><input type="text" placeholder="+14081234567" name="phone" required/><br />'
-        message += '<label for="email">Email:</label><input type="email" placeholder="abc@gmail.com" name="email"/><br />'
-        message += '<input type="submit" value="book" />'
+        message = '<link href="/static/rome.css" rel="stylesheet" type="text/css" />'
+        message += '<script src="/static/rome.js"></script>'
+        message += '<script src="/static/draft_code.js"></script>'
+        message += '<script>' + 'const dates = ' + json.dumps(free_slots_stripped()) + '</script>'
+        message += '<body onload="init()">'
+        message += '<div id="calendar"></div>'
+        message += '<div id="message">Please pick from available dates above ^^</div>'
+        message += '<form action="/" method="post"><div id="slots"></div>'
+        message += '</body>'
     return message
 
 
