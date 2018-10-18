@@ -17,6 +17,7 @@ from flask import request
 
 
 cfg = {} if not os.path.exists('config.yaml') else yaml.load(open('config.yaml', 'r'))
+html_cfg = {} if not os.path.exists('html_config.yaml') else yaml.load(open('html_config.yaml', 'r'))
 
 @app.route('/', methods=['GET', 'POST'])
 def main():
@@ -45,10 +46,12 @@ def get():
     g.cal.refresh()
 
     # Send message back to client
-    message = ('<head><title>%s</title></head><body><h3>%s - appointment scheduler</h3>' %
-               (cfg['schedule_name'], cfg['schedule_name']));
-    message += '<b><i>Note: full service may take up to 3 hours (removal + manicure + design), '
-    message += 'please plan accordingly.</b></i><br /><br />'
+    message = '<head><title>%s</title></head>' % cfg['schedule_name']
+    if os.path.exists('static/googleanalytics.html'):
+        message += open('static/googleanalytics.html', 'r').read()
+    message += '<body><h3>%s - appointment scheduler</h3>' % cfg['schedule_name']
+    if 'some_text' in html_cfg:
+        message += html_cfg['some_text']
     if not g.cal.free_slots:
         message += 'Sorry, no slots are available for booking at this time! Try again later!</body>'
     else:

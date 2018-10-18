@@ -1,5 +1,5 @@
 credentials.json
-config.yaml
-http_config.yaml
+*config.yaml
+static/googleanalytics.html
 __pycache__
 *.pyc
