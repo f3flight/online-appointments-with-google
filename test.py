@@ -62,7 +62,7 @@ def get():
         message += '<body onload="init()">'
         message += '<div id="calendar"></div><br />'
         message += '<div id="message">Please pick from available dates above ^^</div><br />'
-        message += '<form method="post"><div id="slots"></div>'
+        message += '<form action="/" method="post"><div id="slots"></div>'
         message += '</body>'
     return message
 
