@@ -45,7 +45,7 @@ init = () => {
 				dateDict[v][x]['id'] + '" />' + x + '<br />';
 		};
 		if (v in dateDict) {
-			slots.innerHTML += '<label for="name">Name:</label><input type="text" placeholder="John Doe" name="name" required/><br /><label for="phone">Phone:</label><input type="text" placeholder="+14081234567" name="phone" required/><br /><label for="email">Email:</label><input type="email" placeholder="abc@gmail.com" name="email"/><br /><input type="submit" value="book" />';
+			slots.innerHTML += '<br /><label for="name">Name: </label><input type="text" placeholder="Alex Doe" name="name" required/><br /><label for="phone">Phone: </label><input type="text" placeholder="+14081234567" name="phone" required/><br /><label for="email">Email: </label><input type="email" placeholder="abc@gmail.com" name="email"/><br /><br /><input type="submit" value="Schedule!" />';
 		};
 	});
 };

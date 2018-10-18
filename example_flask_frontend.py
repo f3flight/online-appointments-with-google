@@ -47,6 +47,8 @@ def get():
     # Send message back to client
     message = ('<head><title>%s</title></head><body><h3>%s - appointment scheduler</h3>' %
                (cfg['schedule_name'], cfg['schedule_name']));
+    message += '<b><i>Note: full service may take up to 3 hours (removal + manicure + design), '
+    message += 'please plan accordingly.</b></i><br /><br />'
     if not g.cal.free_slots:
         message += 'Sorry, no slots are available for booking at this time! Try again later!</body>'
     else:
@@ -55,8 +57,8 @@ def get():
         message += '<script src="/static/draft_code.js"></script>'
         message += '<script>' + 'const dates = ' + json.dumps(free_slots_stripped()) + '</script>'
         message += '<body onload="init()">'
-        message += '<div id="calendar"></div>'
-        message += '<div id="message">Please pick from available dates above ^^</div>'
+        message += '<div id="calendar"></div><br />'
+        message += '<div id="message">Please pick from available dates above ^^</div><br />'
         message += '<form action="/" method="post"><div id="slots"></div>'
         message += '</body>'
     return message
