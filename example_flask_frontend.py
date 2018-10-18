@@ -69,8 +69,8 @@ def get():
 
 def post(request):
     ok = True
-    msg = 'Appointment booked! Thank you!<br /><a href="/">Book some more...</a>'
-    fail_msg = 'Sorry, this slot is already booked! Better luck next time!<br /><a href="/">Try again...</a>'
+    msg = 'Appointment booked! Thank you!<br /><a href=".">Book some more...</a>'
+    fail_msg = 'Sorry, this slot is already booked! Better luck next time!<br /><a href=".">Try again...</a>'
     if request.form.get('slot'):
         try:
             ok = g.cal.create_appointment(request.form['slot'], request.form)
@@ -78,9 +78,9 @@ def post(request):
             ok = False
             fail_msg = 'Something went wrong! '
             fail_msg += 'Error details: < %s | %s | %s >' % (e.resp.status, e.resp.reason, e._get_reason())
-            fail_msg += '<br /><a href="/">Try again...</a>'
+            fail_msg += '<br /><a href=".">Try again...</a>'
     else:
         ok = False
-        fail_msg = 'Looks like you forgot to select a time slot?<br /><a href="/">Try again...</a>'
+        fail_msg = 'Looks like you forgot to select a time slot?<br /><a href=".">Try again...</a>'
 
     return msg if ok else fail_msg
