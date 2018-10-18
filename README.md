@@ -1,4 +1,6 @@
-INITIAL GOALS - This web app (when finished) should allow after installation:
+As seen at https://lena.3ft.ru
+
+INITIAL GOALS - COMPLETE - This web app (when finished) should allow after installation:
 
 1. create 2 calendars: timetable calendar and appointments calendar
 2. set owner, i.e. allow some user to manage both calendars
@@ -14,4 +16,15 @@ PREREQUISITES:
 3. https://console.developers.google.com/apis/credentials
     1. create credentials -> service account key -> new sevice account -> select role Project->Owner, key type = json, CREATE
     2. save file as `credentials.json`, move to repo folder
-4. for Python implementation, install python packages: `google-api-python-client oauth2client`
+4. for Python implementation (the only one now), install python packages: `google-api-python-client oauth2client`
+
+SECONDARY GOALS (TO-DO):
+
+1. add received data to contacts, additionally:
+    1. check against contacts (by email or phone) to find a known person
+    2. add email from contacts to event if not provided but found by phone
+    3. update contacts if some data changed
+2. allow blacklisting via some flag in contacts
+3. optimize google api client usage to avoid creating a new object for each call
+4. optimize free slot accumulation algorithm (change approach to traverse each event list only once)
+5. implement OAuth (login with Google, Facebook, etc)

@@ -40,9 +40,11 @@ init = () => {
 			message.innerText = 'Please select an available slot on ' +
 				v + ':'
 		};
+		var checked = false;
 		for (x in dateDict[v]) {
 			slots.innerHTML += '<input type="radio" name="slot" value="' +
-				dateDict[v][x]['id'] + '" />' + x + '<br />';
+				dateDict[v][x]['id'] + '"' + (checked ? '' : ' checked="checked"') + ' />' + x + '<br />';
+			checked = true;
 		};
 		if (v in dateDict) {
 			slots.innerHTML += '<br /><label for="name">Name: </label><input type="text" placeholder="Alex Doe" name="name" required/><br /><label for="phone">Phone: </label><input type="text" placeholder="+14081234567" name="phone" required/><br /><label for="email">Email: </label><input type="email" placeholder="abc@gmail.com" name="email"/><br /><br /><input type="submit" value="Schedule!" />';
