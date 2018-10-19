@@ -42,8 +42,12 @@ init = () => {
 		};
 		var checked = false;
 		for (x in dateDict[v]) {
+			var hours = parseInt(x.substr(0,2));
+			var suffix = hours >= 12 ? " pm" : " am";
+			hours = ((hours + 11) % 12 + 1);
+			var time_txt = hours + x.substr(2,3) + suffix;
 			slots.innerHTML += '<input type="radio" name="slot" value="' +
-				dateDict[v][x]['id'] + '"' + (checked ? '' : ' checked="checked"') + ' />' + x + '<br />';
+				dateDict[v][x]['id'] + '"' + (checked ? '' : ' checked="checked"') + ' />' + time_txt + '<br />';
 			checked = true;
 		};
 		if (v in dateDict) {
