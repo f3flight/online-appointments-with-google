@@ -46,20 +46,20 @@ def get():
     g.cal.refresh()
 
     # Send message back to client
-    message = '<head><title>%s</title></head>' % cfg['schedule_name']
+    message = ('<head><title>%s</title>%s%s%s%s'
+               % (cfg['schedule_name'],
+                  '<link href="/static/rome.css" rel="stylesheet" type="text/css" />',
+                  '<script src="/static/rome.js"></script>',
+                  '<script src="/static/draft_code.js"></script>',
+                  '<script>const dates = ' + json.dumps(free_slots_stripped()) + '</script>'))
     if os.path.exists('static/googleanalytics.html'):
         message += open('static/googleanalytics.html', 'r').read()
-    message += '<body><h3>%s - appointment scheduler</h3>' % cfg['schedule_name']
+    message += '</head><body onload="init()"><h3>%s - appointment scheduler</h3>' % cfg['schedule_name']
     if 'some_text' in html_cfg:
         message += html_cfg['some_text']
     if not g.cal.free_slots:
         message += 'Sorry, no slots are available for booking at this time! Try again later!</body>'
     else:
-        message += '<link href="/static/rome.css" rel="stylesheet" type="text/css" />'
-        message += '<script src="/static/rome.js"></script>'
-        message += '<script src="/static/draft_code.js"></script>'
-        message += '<script>' + 'const dates = ' + json.dumps(free_slots_stripped()) + '</script>'
-        message += '<body onload="init()">'
         message += '<div id="calendar"></div><br />'
         message += '<div id="message">Please pick from available dates above ^^</div><br />'
         message += '<form method="post"><div id="slots"></div>'

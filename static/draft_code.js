@@ -1,14 +1,14 @@
 
 dateDict = {}
 
-build_date_str = d => {
+function build_date_str(d) {
 	dateStr = d.getFullYear() +
 		'-' + ('0' + (d.getMonth() + 1)).slice(-2) +
 		'-' + ('0' + d.getDate()).slice(-2);
 	return dateStr;
 };
 
-init = () => {
+function init() {
 
 	for (datetime in dates) {
 		dateStr = datetime.substr(0,10);
@@ -21,7 +21,7 @@ init = () => {
 
 
 	const opts = {
-		'dateValidator': d => {
+		'dateValidator': function(d) {
 			dateStr = build_date_str(d);
 			if (dateStr in dateDict) {
 				return true;
@@ -34,7 +34,7 @@ init = () => {
 	cal = document.getElementById('calendar');
 	slots = document.getElementById('slots');
 	message = document.getElementById('message');
-	rome(cal, opts).on('data', v => {
+	rome(cal, opts).on('data', function(v) {
 		slots.innerHTML = "";
 		if (v in dateDict) {
 			message.innerText = 'Please select an available slot on ' +
