@@ -80,6 +80,15 @@ class AppointmentManager(object):
         else:
             self.appointments_cal = self.create_cal(self.appointments_tag,
                                                     'appointments')
+        # the following section sets bot's timezone
+        # not sure yet if it helps with notifications, testing
+        # problem is that notification to non-google emails have UTC time
+        # in email
+        primary_cal = self._api.calendars().get(calendarId='primary').execute()
+        if primary_cal['timeZone'] != self.timezone:
+            primary_cal['timeZone'] = self.timezone
+            self._api.calendars().update(calendarId=primary_cal['id'],
+                                         body=primary_cal).execute()
         self.refresh()
 
     def refresh(self):
