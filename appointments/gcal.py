@@ -159,10 +159,10 @@ class AppointmentManager(object):
                 event['attendees'].append(email)
             else:
                 event['attendees'] = [email]
-        self._api.events().insert(calendarId=self.appointments_cal,
-                                  body=event,
-                                  sendNotifications=True).execute()
-        return True
+        result = self._api.events().insert(calendarId=self.appointments_cal,
+                                           body=event,
+                                           sendNotifications=True).execute()
+        return result
 
 
 def key_to_time(event, key_name):
